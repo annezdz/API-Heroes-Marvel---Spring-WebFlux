@@ -22,14 +22,21 @@ public class HeroesData {
 
         DynamoDB dynamoDB = new DynamoDB(client);
 
-        Table table = dynamoDB.getTable("Heroes_Table");
+        Table table = dynamoDB.getTable("Heroes");
         Item hero = new Item()
-                .withPrimaryKey("id",1)
+                .withPrimaryKey("id","1")
                 .withString("name","Hulk")
                 .withString("universe", "dc comics")
                 .withNumber("films",3);
 
+        Item hero1 = new Item()
+                .withPrimaryKey("id","2")
+                .withString("name","Thor")
+                .withString("universe","dc comics")
+                .withNumber("films",5);
+
         PutItemOutcome outcome = table.putItem(hero);
+        PutItemOutcome outcome1 = table.putItem(hero1);
 
     }
 }

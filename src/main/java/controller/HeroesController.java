@@ -15,6 +15,7 @@ import service.HeroesService;
 import static constants.HeroesConstant.HEROES_ENDPOINT_LOCAL;
 
 @RestController
+@Slf4j
 public class HeroesController {
 
     HeroesService heroesService;
@@ -29,6 +30,7 @@ public class HeroesController {
     }
 
     @GetMapping(HEROES_ENDPOINT_LOCAL)
+    @ResponseStatus(HttpStatus.OK)
     public Flux<Heroes> getAllItens(){
         log.info("requesting the list off all heroes");
         return heroesService.findAll();
@@ -49,11 +51,11 @@ public class HeroesController {
         return heroesService.save(heroes);
     }
 
-    @DeleteMapping(HEROES_ENDPOINT_LOCAL)
-    @ResponseStatus(code = HttpStatus.CONTINUE)
+    @DeleteMapping(HEROES_ENDPOINT_LOCAL + "/{id}")
+    @ResponseStatus(code = HttpStatus.NOT_FOUND)
     public Mono<HttpStatus> deleteByIdHero(@PathVariable String id){
         log.info("deleting a hero with id {}", id);
         heroesService.deleteByIdHero(id);
-        return Mono.just(HttpStatus.CONTINUE);
+        return Mono.just(HttpStatus.NOT_FOUND);
     }
 }

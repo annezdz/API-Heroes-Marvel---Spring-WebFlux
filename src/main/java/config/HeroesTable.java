@@ -17,6 +17,7 @@ import java.util.Arrays;
 @Configuration
 @EnableDynamoDBRepositories
 public class HeroesTable {
+
     public static void main(String[] args) {
 
         AmazonDynamoDB client = AmazonDynamoDBClientBuilder.standard()
@@ -25,13 +26,13 @@ public class HeroesTable {
 
         DynamoDB dynamoDB = new DynamoDB(client);
 
-        String tableName = "Heroes_Table";
+        String tableName = "Heroes";
 
         try{
             Table table = dynamoDB.createTable(tableName,
                     Arrays.asList(new KeySchemaElement("id", KeyType.HASH)),
                     Arrays.asList(new AttributeDefinition("id", ScalarAttributeType.S)),
-                    new ProvisionedThroughput(5L,5L));
+                    new ProvisionedThroughput(10L,10L));
                     table.waitForActive();
         }
         catch(Exception e){

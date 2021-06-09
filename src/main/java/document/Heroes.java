@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-@DynamoDBTable(tableName = "Heroes_Table")
+@DynamoDBTable(tableName = "Heroes")
 public class Heroes {
 
     @Id
@@ -37,6 +37,22 @@ public class Heroes {
 
     public String getId() {
         return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setUniverse(String universe) {
+        this.universe = universe;
+    }
+
+    public void setFilms(int films) {
+        this.films = films;
     }
 
     public String getName() {
