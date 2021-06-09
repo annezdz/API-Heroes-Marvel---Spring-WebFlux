@@ -23,7 +23,7 @@ public class HeroesService {
         return Mono.justOrEmpty(this.heroesRepository.findById(id));
     }
 
-    public Mono<Heroes> save (Heroes heroes){
+    public Mono<Heroes> create (Heroes heroes){
         return Mono.justOrEmpty(this.heroesRepository.save(heroes));
     }
 

@@ -15,45 +15,44 @@ import service.HeroesService;
 import static constants.HeroesConstant.HEROES_ENDPOINT_LOCAL;
 
 @RestController
-@Slf4j
+@RequestMapping(HEROES_ENDPOINT_LOCAL)
 public class HeroesController {
 
     HeroesService heroesService;
     HeroesRepository heroesRepository;
 
-    private static final org.slf4j.Logger log =
-            org.slf4j.LoggerFactory.getLogger(HeroesController.class);
+    private static final Logger log = LoggerFactory.getLogger(HeroesController.class);
 
     public HeroesController(HeroesService heroesService, HeroesRepository heroesRepository) {
         this.heroesService = heroesService;
         this.heroesRepository = heroesRepository;
     }
 
-    @GetMapping(HEROES_ENDPOINT_LOCAL)
+    @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public Flux<Heroes> getAllItens(){
         log.info("requesting the list off all heroes");
         return heroesService.findAll();
     }
 
-    @GetMapping(HEROES_ENDPOINT_LOCAL + "/id")
-    public Mono<ResponseEntity<Heroes>> findByIdHero(@PathVariable String id){
+    @GetMapping("/{id}")
+    public Mono<ResponseEntity<Heroes>> findByIdHero(@PathVariable("id") String id){
         log.info("requesting the hero with id {}",id);
         return heroesService.findById(id)
                 .map((item) -> new ResponseEntity<>(item, HttpStatus.OK))
                 .defaultIfEmpty(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    @PostMapping(HEROES_ENDPOINT_LOCAL)
+    @PostMapping
     @ResponseStatus(code=HttpStatus.CREATED)
     public Mono<Heroes> createHero(@RequestBody Heroes heroes){
         log.info("creating a hero");
-        return heroesService.save(heroes);
+        return heroesService.create(heroes);
     }
 
-    @DeleteMapping(HEROES_ENDPOINT_LOCAL + "/{id}")
+    @DeleteMapping("/{id}")
     @ResponseStatus(code = HttpStatus.NOT_FOUND)
-    public Mono<HttpStatus> deleteByIdHero(@PathVariable String id){
+    public Mono<HttpStatus> deleteByIdHero(@PathVariable("id") String id){
         log.info("deleting a hero with id {}", id);
         heroesService.deleteByIdHero(id);
         return Mono.just(HttpStatus.NOT_FOUND);

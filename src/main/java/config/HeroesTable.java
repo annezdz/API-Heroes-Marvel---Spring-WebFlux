@@ -13,6 +13,7 @@ import static constants.HeroesConstant.ENDPOINT_DYNAMO;
 import static constants.HeroesConstant.REGION_DYNAMO;
 
 import java.util.Arrays;
+import java.util.Collections;
 
 @Configuration
 @EnableDynamoDBRepositories
@@ -26,13 +27,13 @@ public class HeroesTable {
 
         DynamoDB dynamoDB = new DynamoDB(client);
 
-        String tableName = "Heroes";
+        String tableName = "Heroes_Tab";
 
         try{
             Table table = dynamoDB.createTable(tableName,
-                    Arrays.asList(new KeySchemaElement("id", KeyType.HASH)),
-                    Arrays.asList(new AttributeDefinition("id", ScalarAttributeType.S)),
-                    new ProvisionedThroughput(10L,10L));
+                    Collections.singletonList(new KeySchemaElement("id", KeyType.HASH)),
+                    Collections.singletonList(new AttributeDefinition("id", ScalarAttributeType.S)),
+                    new ProvisionedThroughput(5L,5L));
                     table.waitForActive();
         }
         catch(Exception e){
